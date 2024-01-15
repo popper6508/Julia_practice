@@ -1,10 +1,10 @@
 println("helloworld")
 
-# using Pkg
+using Pkg
 
-# Pkg.add("Plots")
-# Pkg.add("Distributions")
-# Pkg.add("CSV")
+Pkg.add("Plots")
+Pkg.add("Distributions")
+Pkg.add("CSV")
 
 using LinearAlgebra
 using Pkg
@@ -12,6 +12,11 @@ using Plots
 using PyCall
 using CSV
 using Knet
+
+using XLSX:
+    eachtablerow,
+    readxlsx,
+    writetable
 
 packages = [:CSV, :DataFrames, :LinearAlgebra, :Plots, :Knet, :PyCall]
 for package in packages
@@ -23,16 +28,16 @@ np = pyimport("numpy")
 f = np.load("f.npy")
 Rf = np.load("Rf.npy")
 
-p1 = heatmap(reverse(f, dims=1), color=:viridis)
-p2 = heatmap(reverse(Rf, dims=1), color=:viridis)
-plot(p1, p2, size=(728,250))
+@time p1 = heatmap(reverse(f, dims=1), color=:viridis)
+@time p2 = heatmap(reverse(Rf, dims=1), color=:viridis)
+@time plot(p1, p2, size=(728,250))
 
 using CSV, DataFrames
 data = CSV.read("example.csv", DataFrame)
 
-rand(Float64, 2, 3)
+x = rand(Float64, 4, 2)
 
-rand((2, 3))
+data .+ x
 
 using Random
 
@@ -164,4 +169,16 @@ function foo0(x, option = 0)
         error("wrong")
     end
 end
+
+
+function add_multiply(x, y)
+    addition = x + y
+    multiplication = x * y
+    return addition, multiplication
+end
+
+add_multiply(1,3)
+
+root = dirname(@__FILE__)
+
 
