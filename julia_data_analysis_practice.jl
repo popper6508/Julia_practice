@@ -12,9 +12,11 @@ using Downloads
 
 raw_data = data = DataFrame(XLSX.readtable("./data_raw_weekly.xlsx", "Weekly_KR"))
 
-tcode = raw_data[1, :]
+weekly_data = raw_data[:, 2:end]
 
-data = raw_data[2:end, :]
+tcode = weekly_data[1, :]
+
+data = weekly_data[2:end, :]
 
 tdata = data[!, 1:2]
 
